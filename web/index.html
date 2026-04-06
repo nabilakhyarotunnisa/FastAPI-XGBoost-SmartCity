@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unified Smart City Dashboard | Nabila</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root { --p-dark: #0a0e17; --accent: #0dcaf0; }
+        body { background-color: var(--p-dark); font-family: 'Inter', sans-serif; color: #ffffff; margin-top: 80px; }
+
+        .hero-header {
+            background: linear-gradient(rgba(10, 14, 23, 0.85), rgba(10, 14, 23, 1)), 
+                        url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?q=80&w=2000') no-repeat center center;
+            background-size: cover; padding: 60px 0; text-align: center;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 20px; padding: 25px; transition: 0.3s;
+        }
+
+        .form-control-dark {
+            background: rgba(0,0,0,0.5) !important; border: 1px solid rgba(255,255,255,0.2) !important; 
+            color: white !important; border-radius: 12px;
+        }
+        
+        .form-control-dark::placeholder { color: rgba(255, 255, 255, 0.5) !important; }
+
+        .btn-smart {
+            background: linear-gradient(45deg, #0d6efd, #0dcaf0); border: none; font-weight: 800; border-radius: 12px; padding: 15px;
+        }
+
+        #resultSection { display: none; animation: fadeIn 0.6s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-dark fixed-top bg-dark border-bottom border-secondary">
+        <div class="container">
+            <span class="navbar-brand fw-bold d-flex align-items-center">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/NYC_311_logo.svg" height="25" class="me-2" style="filter: brightness(0) invert(1);">
+                SMART CITY UNIFIED
+            </span>
+        </div>
+    </nav>
+
+    <header class="hero-header">
+        <div class="container">
+            <h1 class="display-5 fw-bold text-white mb-2">City Intelligence Dashboard</h1>
+            <p class="text-white-50">Integrasi IoT & Analisis Keluhan Warga</p>
+        </div>
+    </header>
+
+    <div class="container mt-4">
+        <div class="row g-4 mb-5">
+            <div class="col-lg-8">
+                <div class="glass-card">
+                    <div class="row text-center">
+                        <div class="col-md-6 border-end border-secondary">
+                            <i class="bi bi-truck text-info fs-1"></i>
+                            <h6 class="text-white-50 small mt-2 text-uppercase">Traffic Volume (IoT)</h6>
+                            <h2 id="trafficVal" class="fw-bold text-white mt-2">-- km/h</h2>
+                            <small id="trafficLoc" class="text-info fw-bold">Connecting...</small>
+                        </div>
+                        <div class="col-md-6">
+                            <i class="bi bi-lightning-charge text-warning fs-1"></i>
+                            <h6 class="text-white-50 small mt-2 text-uppercase">Energy Usage (Meter)</h6>
+                            <h2 id="energyVal" class="fw-bold text-white mt-2">-- kWh</h2>
+                            <span id="energyStatus" class="badge bg-success mt-1">Status: --</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="glass-card h-100 p-0 overflow-hidden" style="background: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?q=80&w=1000') center; background-size: cover;">
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 mb-5">
+            <div class="col-lg-8">
+                <div class="glass-card">
+                    <h4 class="fw-bold mb-4 text-white"><i class="bi bi-chat-square-text me-2 text-primary"></i>Pelaporan Warga</h4>
+                    <p class="text-white-50 small mb-4">Masukkan keluhan (Bhs. Inggris). AI XGBoost akan memprediksi instansi terkait.</p>
+                    <textarea id="complaintInput" class="form-control form-control-dark mb-4" rows="4" placeholder="Example: Street light is broken near Broadway..."></textarea>
+                    
+                    <button onclick="kirimLaporan()" id="btnKirim" class="btn btn-smart btn-primary w-100 fs-5 text-white shadow">
+                        <i class="bi bi-cpu-fill me-2"></i>ANALISIS DENGAN AI
+                    </button>
+
+                    <div id="resultSection" class="mt-5 p-4 rounded bg-black bg-opacity-50 border border-secondary text-center">
+                        <div class="row align-items-center">
+                            <div class="col-md-7 border-end border-secondary">
+                                <small class="text-white-50">Instansi Tujuan:</small>
+                                <h4 id="resAgency" class="fw-bold text-info mt-1">--</h4>
+                            </div>
+                            <div class="col-md-5">
+                                <small class="text-white-50">Confidence Level:</small>
+                                <h3 id="resConfidence" class="fw-bold text-success mt-1">--%</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="glass-card h-100">
+                    <h6 class="text-white-50 mb-3 text-uppercase small"><i class="bi bi-server me-2 text-danger"></i>Infra Logs</h6>
+                    <table class="table table-dark table-sm table-hover border-secondary small">
+                        <tbody id="infraBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. AMBIL DATA DARI PORT 8001 ---
+        async function fetchStats() {
+            try {
+                const res = await fetch('http://127.0.0.1:8001/city-stats');
+                const data = await res.json();
+                
+                document.getElementById('trafficVal').innerText = `${data.traffic.speed} km/h`;
+                document.getElementById('trafficLoc').innerText = `${data.traffic.street} (${data.traffic.status})`;
+                document.getElementById('energyVal').innerText = `${data.energy.usage} kWh`;
+                document.getElementById('energyStatus').innerText = `${data.energy.id} | ${data.energy.status}`;
+                
+                const b = document.getElementById('infraBody'); b.innerHTML = '';
+                data.infra.forEach(l => {
+                    b.innerHTML += `<tr><td>${l.ASSET_ID}</td><td><span class="badge ${l.CONDITION === 'Critical' ? 'bg-danger' : 'bg-success'}">${l.CONDITION}</span></td></tr>`;
+                });
+            } catch (e) {
+                console.log("Menunggu koneksi backend di port 8001...");
+            }
+        }
+
+        // --- 2. KIRIM LAPORAN KE PORT 8001 ---
+        async function kirimLaporan() {
+            const input = document.getElementById('complaintInput').value;
+            const btn = document.getElementById('btnKirim');
+            if(!input) return alert("Ketik keluhannya dulu!");
+            
+            btn.disabled = true;
+            btn.innerHTML = `<span class="spinner-border spinner-border-sm me-2"></span>AI ANALYZING...`;
+            
+            try {
+                const res = await fetch('http://127.0.0.1:8001/predict', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({description: input})
+                });
+                const d = await res.json();
+                
+                document.getElementById('resultSection').style.display = 'block';
+                document.getElementById('resAgency').innerText = d.predicted_agency;
+                document.getElementById('resConfidence').innerText = d.confidence_score;
+            } catch (e) { 
+                alert("Server Error! Pastikan Python di port 8001 sudah nyala."); 
+            } finally { 
+                btn.disabled = false; 
+                btn.innerHTML = `<i class="bi bi-cpu-fill me-2"></i>ANALISIS DENGAN AI`; 
+            }
+        }
+
+        window.onload = fetchStats;
+        setInterval(fetchStats, 5000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+ID,STATUS,KWH_USAGE,LOCATION
+SL-7779,Low Voltage,7.85,Brooklyn
+SL-9068,Normal,19.38,Manhattan
+SL-7872,Low Voltage,16.05,Queens
+SL-9893,High Usage,12.66,Bronx
+SL-7156,Low Voltage,5.95,Staten Island
+SL-2847,Normal,15.03,Brooklyn
+SL-6608,Normal,24.26,Manhattan
+SL-5289,Offline,14.94,Queens
+SL-7890,Offline,22.47,Bronx
+SL-8541,Low Voltage,8.85,Staten Island
+SL-3735,Low Voltage,15.89,Brooklyn
+SL-5613,Normal,20.48,Manhattan
+SL-1351,Normal,19.72,Queens
+SL-1377,Offline,18.84,Bronx
+SL-7328,Low Voltage,10.58,Staten Island
+SL-7338,Offline,16.16,Brooklyn
+SL-4749,High Usage,13.13,Manhattan
+SL-7246,Normal,20.17,Queens
+SL-1624,Offline,13.86,Bronx
+SL-6157,Low Voltage,18.88,Staten Island
+SL-3229,High Usage,22.4,Brooklyn
+SL-5187,High Usage,12.87,Manhattan
+SL-8343,Offline,11.27,Queens
+SL-1192,Normal,6.09,Bronx
+SL-4358,High Usage,9.4,Staten Island
+SL-3314,Offline,20.34,Brooklyn
+SL-8897,High Usage,21.64,Manhattan
+SL-5641,High Usage,20.43,Queens
+SL-6422,Normal,6.76,Bronx
+SL-4604,Offline,20.22,Staten Island
+SL-1945,Normal,13.24,Brooklyn
+SL-3492,High Usage,17.19,Manhattan
+SL-8542,High Usage,12.57,Queens
+SL-1781,Normal,21.21,Bronx
+SL-4001,High Usage,19.09,Staten Island
+SL-2364,Low Voltage,8.24,Brooklyn
+SL-3094,Low Voltage,17.04,Manhattan
+SL-9647,Offline,10.2,Queens
+SL-5387,High Usage,15.42,Bronx
+SL-9704,High Usage,9.92,Staten Island
+SL-5814,Low Voltage,9.39,Brooklyn
+SL-4183,Low Voltage,23.12,Manhattan
+SL-1934,Offline,22.77,Queens
+SL-9916,Offline,24.7,Bronx
+SL-2495,Low Voltage,12.99,Staten Island
+SL-6982,Offline,19.41,Brooklyn
+SL-2933,High Usage,22.12,Manhattan
+SL-3230,Normal,8.37,Queens
+SL-3501,Offline,8.91,Bronx
+SL-4774,Low Voltage,7.46,Staten Island
